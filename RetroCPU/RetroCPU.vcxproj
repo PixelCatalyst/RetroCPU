@@ -78,7 +78,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>d2d1.lib;dwrite.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -120,13 +120,8 @@
   <ItemGroup>
     <ClCompile Include="ALUComponent.cpp" />
     <ClCompile Include="App.cpp" />
-    <ClCompile Include="BrushesManager.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ControlComponent.cpp" />
-    <ClCompile Include="DirectConsole.cpp" />
-    <ClCompile Include="DirectConsoleUtilities.cpp" />
-    <ClCompile Include="DirectWrite.cpp" />
-    <ClCompile Include="DirectWriteTextEffects.cpp" />
     <ClCompile Include="Flags.cpp" />
     <ClCompile Include="GraphicsCard.cpp" />
     <ClCompile Include="JumpComponent.cpp" />
@@ -138,22 +133,15 @@
     <ClCompile Include="Registers.cpp" />
     <ClCompile Include="ROMSelector.cpp" />
     <ClCompile Include="StaticEdit.cpp" />
-    <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="VerticalScroll.cpp" />
     <ClCompile Include="VirtualMachine.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
-    <ClInclude Include="BrushesManager.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Byte.h" />
-    <ClInclude Include="ConsoleConstants.h" />
     <ClInclude Include="Device.h" />
-    <ClInclude Include="DirectConsole.h" />
-    <ClInclude Include="DirectConsoleUtilities.h" />
-    <ClInclude Include="DirectWrite.h" />
-    <ClInclude Include="DirectWriteTextEffects.h" />
     <ClInclude Include="Flags.h" />
     <ClInclude Include="GraphicsCard.h" />
     <ClInclude Include="Memory.h" />
@@ -164,7 +152,6 @@
     <ClInclude Include="ROMSelector.h" />
     <ClInclude Include="SafeRemove.h" />
     <ClInclude Include="StaticEdit.h" />
-    <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="VerticalScroll.h" />
     <ClInclude Include="VirtualMachine.h" />
     <ClInclude Include="Window.h" />

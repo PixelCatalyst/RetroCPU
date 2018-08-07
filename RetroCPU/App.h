@@ -4,14 +4,12 @@
 #include <Windows.h>
 
 #include "VirtualMachine.h"
-#include "DirectConsole.h"
 #include "ROMSelector.h"
 
 class CApp
 {
 private:
 	CVirtualMachine VM;
-	CDirectConsole Console;
 	CROMSelector ROMSelector;
 
 	MSG Message;

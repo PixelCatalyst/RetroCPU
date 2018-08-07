@@ -36,15 +36,11 @@ bool CApp::ShouldNotQuit() const
 void CApp::Initialize()
 {
 	VM.Initialize();
-	Console.Initialize(25, 80, 1);
-	Console.SetTitle(L"CPU screen");
-	Console.Show();
 	ROMSelector.Initialize(VM);
 	ROMSelector.Show();
 }
 
 CApp::CApp(HINSTANCE Instance) :
-	Console(0, Instance),
 	ROMSelector(Instance)
 {
 	Message.message = WM_NULL;
