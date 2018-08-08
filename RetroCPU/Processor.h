@@ -15,25 +15,25 @@ using std::queue;
 class CProcessor
 {
 private:
-	CRegisters Registers;
-	CFlags Flags;
-	CMemory& InstructionMemory;
-	CMemory& DataMemory;
-	map<word, DeviceRecord> Devices;
-	queue<byte> PendingInterruptRequests;
+    CRegisters Registers;
+    CFlags Flags;
+    CMemory& InstructionMemory;
+    CMemory& DataMemory;
+    map<word, DeviceRecord> Devices;
+    queue<byte> PendingInterruptRequests;
 
-	IProcessorComponent** pComponents = nullptr;
+    IProcessorComponent** pComponents = nullptr;
 
-	void HandleInterruptRequest();
+    void HandleInterruptRequest();
 public:
-	IDevice* GetDevice(word Port);
-	void AddDevice(IDevice* pDevice, word MinPort, word MaxPort);
+    IDevice* GetDevice(word Port);
+    void AddDevice(IDevice* pDevice, word MinPort, word MaxPort);
 
-	void InterruptRequest(byte IntCode);
-	bool ExecuteInstruction();
+    void InterruptRequest(byte IntCode);
+    bool ExecuteInstruction();
 
-	CProcessor(CMemory& InstructionMemory, CMemory& DataMemory);
-	~CProcessor();
+    CProcessor(CMemory& InstructionMemory, CMemory& DataMemory);
+    ~CProcessor();
 
-	friend class IProcessorComponent;
+    friend class IProcessorComponent;
 };

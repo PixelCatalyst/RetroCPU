@@ -14,18 +14,18 @@ using std::ifstream;
 class CVirtualMachine
 {
 private:
-	CProcessor Processor;
-	CMemory InstructionMemory, DataMemory;
-	CGraphicsCard GraphicsCard;
-	bool Running = false;
+    CProcessor Processor;
+    CMemory InstructionMemory, DataMemory;
+    CGraphicsCard GraphicsCard;
+    bool Running = false;
 
-	bool LoadROMSegment(ifstream& ROM, CMemory& TargetMemory);
+    bool LoadROMSegment(ifstream& ROM, CMemory& TargetMemory);
 public:
-	void Terminate();
-	bool Cycle();
-	bool IsRunning() const;
-	void LoadROM(const wstring& Path);
+    void Terminate();
+    bool Cycle();
+    bool IsRunning() const;
+    void LoadROM(const wstring& Path);
 
-	void Initialize();
-	CVirtualMachine();
+    void Initialize();
+    CVirtualMachine();
 };

@@ -3,50 +3,50 @@
 
 void CFlags::RestoreFromStack(short& StackPointer, CMemory& DataMemory)
 {
-	Flags = DataMemory[++StackPointer];
+    Flags = DataMemory[++StackPointer];
 }
 
 void CFlags::SaveOnStack(short& StackPointer, CMemory& DataMemory)
 {
-	DataMemory[StackPointer--] = Flags.to_ulong();
+    DataMemory[StackPointer--] = Flags.to_ulong();
 }
 
 bool CFlags::GetInterruptMask() const
 {
-	return InterruptFlags[1];
+    return InterruptFlags[1];
 }
 
 bool CFlags::GetInterruptInService() const
 {
-	return InterruptFlags[0];
+    return InterruptFlags[0];
 }
 
 bool CFlags::GetCF() const
 {
-	return Flags[1];
+    return Flags[1];
 }
 
 bool CFlags::GetZF() const
 {
-	return Flags[0];
+    return Flags[0];
 }
 
 void CFlags::SetInterruptMask(bool Flag)
 {
-	InterruptFlags[1] = Flag;
+    InterruptFlags[1] = Flag;
 }
 
 void CFlags::SetInterruptInService(bool Flag)
 {
-	InterruptFlags[0] = Flag;
+    InterruptFlags[0] = Flag;
 }
 
 void CFlags::SetCF(bool Flag)
 {
-	Flags[1] = Flag;
+    Flags[1] = Flag;
 }
 
 void CFlags::SetZF(bool Flag)
 {
-	Flags[0] = Flag;
+    Flags[0] = Flag;
 }
