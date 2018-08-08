@@ -137,12 +137,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ALUComponent.cpp" />
-    <ClCompile Include="App.cpp" />
+    <ClCompile Include="Application.cpp" />
     <ClCompile Include="ControlComponent.cpp" />
     <ClCompile Include="Flags.cpp" />
     <ClCompile Include="GraphicsCard.cpp" />
     <ClCompile Include="JumpComponent.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="Memory.cpp" />
     <ClCompile Include="MemoryComponent.cpp" />
     <ClCompile Include="Processor.cpp" />
@@ -151,7 +150,7 @@
     <ClCompile Include="VirtualMachine.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="App.h" />
+    <ClInclude Include="Application.h" />
     <ClInclude Include="Byte.h" />
     <ClInclude Include="Device.h" />
     <ClInclude Include="Flags.h" />
