@@ -8,7 +8,6 @@ void CApp::Update()
 		if(FollowUpRequest == false)
 		{
 			VM.Terminate();
-			ROMSelector.OnMachineSelfTerminate();
 		}
 	}
 }
@@ -36,12 +35,9 @@ bool CApp::ShouldNotQuit() const
 void CApp::Initialize()
 {
 	VM.Initialize();
-	ROMSelector.Initialize(VM);
-	ROMSelector.Show();
 }
 
-CApp::CApp(HINSTANCE Instance) :
-	ROMSelector(Instance)
+CApp::CApp(HINSTANCE Instance)
 {
 	Message.message = WM_NULL;
 }

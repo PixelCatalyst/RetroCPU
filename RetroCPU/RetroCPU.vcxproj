@@ -120,7 +120,6 @@
   <ItemGroup>
     <ClCompile Include="ALUComponent.cpp" />
     <ClCompile Include="App.cpp" />
-    <ClCompile Include="Button.cpp" />
     <ClCompile Include="ControlComponent.cpp" />
     <ClCompile Include="Flags.cpp" />
     <ClCompile Include="GraphicsCard.cpp" />
@@ -131,15 +130,10 @@
     <ClCompile Include="Processor.cpp" />
     <ClCompile Include="ProcessorComponent.cpp" />
     <ClCompile Include="Registers.cpp" />
-    <ClCompile Include="ROMSelector.cpp" />
-    <ClCompile Include="StaticEdit.cpp" />
-    <ClCompile Include="VerticalScroll.cpp" />
     <ClCompile Include="VirtualMachine.cpp" />
-    <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
-    <ClInclude Include="Button.h" />
     <ClInclude Include="Byte.h" />
     <ClInclude Include="Device.h" />
     <ClInclude Include="Flags.h" />
@@ -149,12 +143,7 @@
     <ClInclude Include="Processor.h" />
     <ClInclude Include="ProcessorComponent.h" />
     <ClInclude Include="Registers.h" />
-    <ClInclude Include="ROMSelector.h" />
-    <ClInclude Include="SafeRemove.h" />
-    <ClInclude Include="StaticEdit.h" />
-    <ClInclude Include="VerticalScroll.h" />
     <ClInclude Include="VirtualMachine.h" />
-    <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

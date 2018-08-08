@@ -4,13 +4,11 @@
 #include <Windows.h>
 
 #include "VirtualMachine.h"
-#include "ROMSelector.h"
 
 class CApp
 {
 private:
 	CVirtualMachine VM;
-	CROMSelector ROMSelector;
 
 	MSG Message;
 	bool QuitMessageProcessed = false;
