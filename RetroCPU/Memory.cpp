@@ -1,34 +1,34 @@
 #include "Memory.h"
 
-short CMemory::LoadWord(unsigned short Address)
+short Memory::LoadWord(unsigned short address)
 {
-    short Word = pCells[Address];
-    Word <<= 8;
-    if (Address == MaxAddress)
-        return Word;
-    return (Word += pCells[Address + 1]);
+    short word = cells[address];
+    word <<= 8;
+    if (address == maxAddress)
+        return word;
+    return (word += cells[address + 1]);
 }
 
-void CMemory::StoreWord(unsigned short Address, short Word)
+void Memory::StoreWord(unsigned short address, short word)
 {
-    pCells[Address] = HIGHBYTE(Word);
-    if (Address < MaxAddress)
-        pCells[Address + 1] = LOWBYTE(Word);
+    cells[address] = HIGHBYTE(word);
+    if (address < maxAddress)
+        cells[address + 1] = LOWBYTE(word);
 }
 
-byte& CMemory::operator[](unsigned short Index)
+byte& Memory::operator[](unsigned short index)
 {
-    return pCells[Index];
+    return cells[index];
 }
 
-CMemory::CMemory()
+Memory::Memory()
 {
-    pCells = new byte[SizeInBytes];
-    for (unsigned i = 0; i < SizeInBytes; ++i)
-        pCells[i] = 0;
+    cells = new byte[sizeInBytes];
+    for (unsigned i = 0; i < sizeInBytes; ++i)
+        cells[i] = 0;
 }
 
-CMemory::~CMemory()
+Memory::~Memory()
 {
-    delete[] pCells;
+    delete[] cells;
 }

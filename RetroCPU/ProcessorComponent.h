@@ -2,23 +2,23 @@
 
 #include "Opcodes.h"
 
-class CProcessor;
+class Processor;
 
-class IProcessorComponent
+class ProcessorComponent
 {
 protected:
-    CProcessor& Processor;
-    CRegisters& Registers;
-    CFlags& Flags;
-    CMemory& InstructionMemory;
-    CMemory& DataMemory;
+    Processor& processor;
+    Registers& registers;
+    Flags& flags;
+    Memory& instructionMemory;
+    Memory& dataMemory;
 public:
-    virtual short Dispatch(OPCODE Opcode) = 0;
+    virtual short Dispatch(OPCODE opcode) = 0;
 
-    IProcessorComponent(CProcessor& Processor);
+    ProcessorComponent(Processor& processor);
 };
 
-class CMemoryComponent : public IProcessorComponent
+class MemoryComponent : public ProcessorComponent
 {
 public:
     short POPF();
@@ -33,37 +33,37 @@ public:
     short MOV_IMM8();
     short MOV_REG();
 
-    short Dispatch(OPCODE Opcode);
+    short Dispatch(OPCODE opcode);
 
-    CMemoryComponent(CProcessor& Processor);
+    MemoryComponent(Processor& processor);
 };
 
-class CALUComponent : public IProcessorComponent
+class ALUComponent : public ProcessorComponent
 {
 private:
-    short DispatchBinaryOp(OPCODE Opcode);
-    short DispatchUnaryOp(OPCODE Opcode);
+    short DispatchBinaryOp(OPCODE opcode);
+    short DispatchUnaryOp(OPCODE opcode);
 public:
-    short SHR(OperandRegs& Args);
-    short SHL(OperandRegs& Args);
-    short NOT(byte Reg);
-    short XOR(OperandRegs& Args);
-    short OR(OperandRegs& Args);
-    short AND(OperandRegs& Args);
-    short DEC(byte Reg);
-    short INC(byte Reg);
-    short MOD(OperandRegs& Args);
-    short DIV(OperandRegs& Args);
-    short MUL(OperandRegs& Args);
-    short SUB(OperandRegs& Args);
-    short ADD(OperandRegs& Args);
+    short SHR(OperandRegs& args);
+    short SHL(OperandRegs& args);
+    short NOT(byte reg);
+    short XOR(OperandRegs& args);
+    short OR(OperandRegs& args);
+    short AND(OperandRegs& args);
+    short DEC(byte reg);
+    short INC(byte reg);
+    short MOD(OperandRegs& args);
+    short DIV(OperandRegs& args);
+    short MUL(OperandRegs& args);
+    short SUB(OperandRegs& args);
+    short ADD(OperandRegs& args);
 
-    short Dispatch(OPCODE Opcode);
+    short Dispatch(OPCODE opcode);
 
-    CALUComponent(CProcessor& Processor);
+    ALUComponent(Processor& processor);
 };
 
-class CJumpComponent : public IProcessorComponent
+class JumpComponent : public ProcessorComponent
 {
 public:
     short JBE();
@@ -79,17 +79,17 @@ public:
     short JMP_IMM16();
     short JMP_REG();
 
-    short Dispatch(OPCODE Opcode);
+    short Dispatch(OPCODE opcode);
 
-    CJumpComponent(CProcessor& Processor);
+    JumpComponent(Processor& processor);
 };
 
-class CControlComponent : public IProcessorComponent
+class ControlComponent : public ProcessorComponent
 {
 private:
-    short InterruptRelatedOp(OPCODE Opcode);
+    short InterruptRelatedOp(OPCODE opcode);
 public:
-    short Dispatch(OPCODE Opcode);
+    short Dispatch(OPCODE opcode);
 
-    CControlComponent(CProcessor& Processor);
+    ControlComponent(Processor& processor);
 };

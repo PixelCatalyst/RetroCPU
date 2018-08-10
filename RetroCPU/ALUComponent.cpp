@@ -1,174 +1,174 @@
 #include "Processor.h"
 
-short CALUComponent::SHR(OperandRegs& Args)
+short ALUComponent::SHR(OperandRegs& args)
 {
-    word Count = static_cast<word>(Registers[Args.SourceReg]);
-    if (Count > 0)
+    word count = static_cast<word>(registers[args.sourceReg]);
+    if (count > 0)
     {
-        word TempBitMask = Registers[Args.DestinationReg] & (1 << (Count - 1));
-        Registers[Args.DestinationReg] >>= Count;
-        Flags.SetCF(TempBitMask > 0);
-        Flags.SetZF(Registers[Args.DestinationReg] == 0);
+        word tempBitMask = registers[args.destinationReg] & (1 << (count - 1));
+        registers[args.destinationReg] >>= count;
+        flags.SetCF(tempBitMask > 0);
+        flags.SetZF(registers[args.destinationReg] == 0);
     }
     return 2;
 }
 
-short CALUComponent::SHL(OperandRegs& Args)
+short ALUComponent::SHL(OperandRegs& args)
 {
-    word Count = static_cast<word>(Registers[Args.SourceReg]);
-    if (Count > 0)
+    word count = static_cast<word>(registers[args.sourceReg]);
+    if (count > 0)
     {
-        Registers[Args.DestinationReg] <<= Count - 1;
-        word TempBitMask = Registers[Args.DestinationReg] & 32768;
-        Flags.SetCF(TempBitMask > 0);
-        Registers[Args.DestinationReg] <<= 1;
-        Flags.SetZF(Registers[Args.DestinationReg] == 0);
+        registers[args.destinationReg] <<= count - 1;
+        word tempBitMask = registers[args.destinationReg] & 32768;
+        flags.SetCF(tempBitMask > 0);
+        registers[args.destinationReg] <<= 1;
+        flags.SetZF(registers[args.destinationReg] == 0);
     }
     return 2;
 }
 
-short CALUComponent::NOT(byte Reg)
+short ALUComponent::NOT(byte reg)
 {
-    Registers[Reg] = ~Registers[Reg];
+    registers[reg] = ~registers[reg];
     return 2;
 }
 
-short CALUComponent::XOR(OperandRegs& Args)
+short ALUComponent::XOR(OperandRegs& args)
 {
-    Registers[Args.DestinationReg] ^= Registers[Args.SourceReg];
-    Flags.SetZF(Registers[Args.DestinationReg] == 0);
-    Flags.SetCF(false);
+    registers[args.destinationReg] ^= registers[args.sourceReg];
+    flags.SetZF(registers[args.destinationReg] == 0);
+    flags.SetCF(false);
     return 2;
 }
 
-short CALUComponent::OR(OperandRegs& Args)
+short ALUComponent::OR(OperandRegs& args)
 {
-    Registers[Args.DestinationReg] |= Registers[Args.SourceReg];
-    Flags.SetZF(Registers[Args.DestinationReg] == 0);
-    Flags.SetCF(false);
+    registers[args.destinationReg] |= registers[args.sourceReg];
+    flags.SetZF(registers[args.destinationReg] == 0);
+    flags.SetCF(false);
     return 2;
 }
 
-short CALUComponent::AND(OperandRegs& Args)
+short ALUComponent::AND(OperandRegs& args)
 {
-    Registers[Args.DestinationReg] &= Registers[Args.SourceReg];
-    Flags.SetZF(Registers[Args.DestinationReg] == 0);
-    Flags.SetCF(false);
+    registers[args.destinationReg] &= registers[args.sourceReg];
+    flags.SetZF(registers[args.destinationReg] == 0);
+    flags.SetCF(false);
     return 2;
 }
 
-short CALUComponent::DEC(byte Reg)
+short ALUComponent::DEC(byte reg)
 {
-    --Registers[Reg];
-    Flags.SetZF(Registers[Reg] == 0);
+    --registers[reg];
+    flags.SetZF(registers[reg] == 0);
     return 2;
 }
 
-short CALUComponent::INC(byte Reg)
+short ALUComponent::INC(byte reg)
 {
-    ++Registers[Reg];
-    Flags.SetZF(Registers[Reg] == 0);
+    ++registers[reg];
+    flags.SetZF(registers[reg] == 0);
     return 2;
 }
 
-short CALUComponent::MOD(OperandRegs& Args)
+short ALUComponent::MOD(OperandRegs& args)
 {
-    if (Registers[Args.SourceReg] == 0)
-        Processor.InterruptRequest(0);
+    if (registers[args.sourceReg] == 0)
+        processor.InterruptRequest(0);
     else
     {
-        Registers[Args.DestinationReg] %= Registers[Args.SourceReg];
-        Flags.SetZF(Registers[Args.DestinationReg] == 0);
+        registers[args.destinationReg] %= registers[args.sourceReg];
+        flags.SetZF(registers[args.destinationReg] == 0);
     }
     return 2;
 }
 
-short CALUComponent::DIV(OperandRegs& Args)
+short ALUComponent::DIV(OperandRegs& args)
 {
-    if (Registers[Args.SourceReg] == 0)
-        Processor.InterruptRequest(0);
+    if (registers[args.sourceReg] == 0)
+        processor.InterruptRequest(0);
     else
-        Registers[Args.DestinationReg] /= Registers[Args.SourceReg];
+        registers[args.destinationReg] /= registers[args.sourceReg];
     return 2;
 }
 
-short CALUComponent::MUL(OperandRegs& Args)
+short ALUComponent::MUL(OperandRegs& args)
 {
-    int Source = Registers[Args.SourceReg];
-    int Destination = Registers[Args.DestinationReg];
-    Destination *= Source;
-    Registers[Args.DestinationReg] = Destination;
-    Flags.SetCF(Destination != Registers[Args.DestinationReg]);
+    int source = registers[args.sourceReg];
+    int destination = registers[args.destinationReg];
+    destination *= source;
+    registers[args.destinationReg] = destination;
+    flags.SetCF(destination != registers[args.destinationReg]);
     return 2;
 }
 
-short CALUComponent::SUB(OperandRegs& Args)
+short ALUComponent::SUB(OperandRegs& args)
 {
-    Registers[Args.DestinationReg] -= Registers[Args.SourceReg];
-    Flags.SetZF(Registers[Args.DestinationReg] == 0);
-    Flags.SetCF(Registers[Args.DestinationReg] < 0);
+    registers[args.destinationReg] -= registers[args.sourceReg];
+    flags.SetZF(registers[args.destinationReg] == 0);
+    flags.SetCF(registers[args.destinationReg] < 0);
     return 2;
 }
 
-short CALUComponent::ADD(OperandRegs& Args)
+short ALUComponent::ADD(OperandRegs& args)
 {
-    Registers[Args.DestinationReg] += Registers[Args.SourceReg];
-    Flags.SetZF(Registers[Args.DestinationReg] == 0);
+    registers[args.destinationReg] += registers[args.sourceReg];
+    flags.SetZF(registers[args.destinationReg] == 0);
     return 2;
 }
 
-short CALUComponent::DispatchBinaryOp(OPCODE Opcode)
+short ALUComponent::DispatchBinaryOp(OPCODE opcode)
 {
-    OperandRegs Args = InstructionMemory[Registers.GetInstructionPointer() + 1];
-    switch (Opcode)
+    OperandRegs args = instructionMemory[registers.GetInstructionPointer() + 1];
+    switch (opcode)
     {
     case OPCODE::SHR:
-        return SHR(Args);
+        return SHR(args);
     case OPCODE::SHL:
-        return SHL(Args);
+        return SHL(args);
     case OPCODE::XOR:
-        return XOR(Args);
+        return XOR(args);
     case OPCODE::OR:
-        return OR(Args);
+        return OR(args);
     case OPCODE::AND:
-        return AND(Args);
+        return AND(args);
     case OPCODE::MOD:
-        return MOD(Args);
+        return MOD(args);
     case OPCODE::DIV:
-        return DIV(Args);
+        return DIV(args);
     case OPCODE::MUL:
-        return MUL(Args);
+        return MUL(args);
     case OPCODE::SUB:
-        return SUB(Args);
+        return SUB(args);
     case OPCODE::ADD:
-        return ADD(Args);
+        return ADD(args);
     default:
         return 1;
     }
 }
 
-short CALUComponent::DispatchUnaryOp(OPCODE Opcode)
+short ALUComponent::DispatchUnaryOp(OPCODE opcode)
 {
-    byte Reg = InstructionMemory[Registers.GetInstructionPointer() + 1];
-    switch (Opcode)
+    byte reg = instructionMemory[registers.GetInstructionPointer() + 1];
+    switch (opcode)
     {
     case OPCODE::NOT:
-        return NOT(Reg);
+        return NOT(reg);
     case OPCODE::DEC:
-        return DEC(Reg);
+        return DEC(reg);
     case OPCODE::INC:
-        return INC(Reg);
+        return INC(reg);
     }
 }
 
-short CALUComponent::Dispatch(OPCODE Opcode)
+short ALUComponent::Dispatch(OPCODE opcode)
 {
-    if ((Opcode == OPCODE::NOT) || (Opcode == OPCODE::DEC) || (Opcode == OPCODE::INC))
-        return DispatchUnaryOp(Opcode);
+    if ((opcode == OPCODE::NOT) || (opcode == OPCODE::DEC) || (opcode == OPCODE::INC))
+        return DispatchUnaryOp(opcode);
     else
-        return DispatchBinaryOp(Opcode);
+        return DispatchBinaryOp(opcode);
 }
 
-CALUComponent::CALUComponent(CProcessor& Processor) :
-    IProcessorComponent(Processor)
+ALUComponent::ALUComponent(Processor& processor) :
+    ProcessorComponent(processor)
 {}

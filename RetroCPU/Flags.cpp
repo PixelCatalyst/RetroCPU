@@ -1,52 +1,52 @@
 #include "Flags.h"
 #include "Memory.h"
 
-void CFlags::RestoreFromStack(short& StackPointer, CMemory& DataMemory)
+void Flags::RestoreFromStack(short& stackPointer, Memory& dataMemory)
 {
-    Flags = DataMemory[++StackPointer];
+    flags = dataMemory[++stackPointer];
 }
 
-void CFlags::SaveOnStack(short& StackPointer, CMemory& DataMemory)
+void Flags::SaveOnStack(short& stackPointer, Memory& dataMemory)
 {
-    DataMemory[StackPointer--] = Flags.to_ulong();
+    dataMemory[stackPointer--] = flags.to_ulong();
 }
 
-bool CFlags::GetInterruptMask() const
+bool Flags::GetInterruptMask() const
 {
-    return InterruptFlags[1];
+    return interruptFlags[1];
 }
 
-bool CFlags::GetInterruptInService() const
+bool Flags::GetInterruptInService() const
 {
-    return InterruptFlags[0];
+    return interruptFlags[0];
 }
 
-bool CFlags::GetCF() const
+bool Flags::GetCF() const
 {
-    return Flags[1];
+    return flags[1];
 }
 
-bool CFlags::GetZF() const
+bool Flags::GetZF() const
 {
-    return Flags[0];
+    return flags[0];
 }
 
-void CFlags::SetInterruptMask(bool Flag)
+void Flags::SetInterruptMask(bool flag)
 {
-    InterruptFlags[1] = Flag;
+    interruptFlags[1] = flag;
 }
 
-void CFlags::SetInterruptInService(bool Flag)
+void Flags::SetInterruptInService(bool flag)
 {
-    InterruptFlags[0] = Flag;
+    interruptFlags[0] = flag;
 }
 
-void CFlags::SetCF(bool Flag)
+void Flags::SetCF(bool flag)
 {
-    Flags[1] = Flag;
+    flags[1] = flag;
 }
 
-void CFlags::SetZF(bool Flag)
+void Flags::SetZF(bool flag)
 {
-    Flags[0] = Flag;
+    flags[0] = flag;
 }

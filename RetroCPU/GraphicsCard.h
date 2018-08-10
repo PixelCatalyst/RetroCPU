@@ -2,12 +2,12 @@
 
 #include "Device.h"
 
-class CGraphicsCard : public IDevice
+class GraphicsCard : public Device
 {
 private:
 public:
-    byte ReceiveByteFrom(word Port);
-    void SendByteTo(word Port, byte Value);
-    short ReceiveWordFrom(word Port);
-    void SendWordTo(word Port, short Value);
+    byte ReceiveByteFrom(word port);
+    void SendByteTo(word port, byte value);
+    short ReceiveWordFrom(word port);
+    void SendWordTo(word port, short value);
 };

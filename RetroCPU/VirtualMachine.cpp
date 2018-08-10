@@ -2,58 +2,58 @@
 
 using namespace std;
 
-void CVirtualMachine::Terminate()
+void VirtualMachine::Terminate()
 {
-    Running = false;
+    running = false;
 }
 
-bool CVirtualMachine::Cycle()
+bool VirtualMachine::Cycle()
 {
-    return Processor.ExecuteInstruction();
+    return processor.ExecuteInstruction();
 }
 
-bool CVirtualMachine::IsRunning() const
+bool VirtualMachine::IsRunning() const
 {
-    return Running;
+    return running;
 }
 
-bool CVirtualMachine::LoadROMSegment(ifstream& ROM, CMemory& TargetMemory)
+bool VirtualMachine::LoadROMSegment(ifstream& storage, Memory& targetMemory)
 {
-    short Length = 0;
-    ROM.read(reinterpret_cast<char*>(&Length), 2);
-    if (ROM.gcount() != 2)
+    short length = 0;
+    storage.read(reinterpret_cast<char*>(&length), 2);
+    if (storage.gcount() != 2)
         return false;
-    char* pBuffer = new char[Length];
-    ROM.read(pBuffer, Length);
-    if (ROM.gcount() != Length)
+    char* buffer = new char[length];
+    storage.read(buffer, length);
+    if (storage.gcount() != length)
         return false;
-    for (int i = 0; i < Length; ++i)
-        TargetMemory[i] = pBuffer[i];
-    delete[] pBuffer;
+    for (int i = 0; i < length; ++i)
+        targetMemory[i] = buffer[i];
+    delete[] buffer;
     return true;
 }
 
-void CVirtualMachine::LoadROM(const wstring& Path)
+void VirtualMachine::LoadROM(const wstring& path)
 {
-    if (Path.empty() == false)
+    if (path.empty() == false)
     {
-        ifstream ROM(Path, ios::binary | ios::beg);
-        if (ROM.is_open())
+        ifstream storage(path, ios::binary | ios::beg);
+        if (storage.is_open())
         {
-            if (LoadROMSegment(ROM, DataMemory) == false)
+            if (LoadROMSegment(storage, dataMemory) == false)
                 return;
-            if (LoadROMSegment(ROM, InstructionMemory) == false)
+            if (LoadROMSegment(storage, instructionMemory) == false)
                 return;
-            Running = true;
+            running = true;
         }
     }
 }
 
-void CVirtualMachine::Initialize()
+void VirtualMachine::Initialize()
 {
-    Processor.AddDevice(&GraphicsCard, 10, 12);
+    processor.AddDevice(&graphicsCard, 10, 12);
 }
 
-CVirtualMachine::CVirtualMachine() :
-    Processor(InstructionMemory, DataMemory)
+VirtualMachine::VirtualMachine() :
+    processor(instructionMemory, dataMemory)
 {}

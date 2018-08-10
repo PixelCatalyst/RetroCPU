@@ -1,41 +1,41 @@
 #include "Processor.h"
 
-short CControlComponent::InterruptRelatedOp(OPCODE Opcode)
+short ControlComponent::InterruptRelatedOp(OPCODE opcode)
 {
-    if (Opcode == OPCODE::LIA)
+    if (opcode == OPCODE::LIA)
     {
-        byte Code = InstructionMemory[Registers.GetInstructionPointer() + 1];
-        short Address = InstructionMemory.LoadWord(Registers.GetInstructionPointer() + 2);
-        Registers.GetInterruptAddress(Code) = Address;
+        byte code = instructionMemory[registers.GetInstructionPointer() + 1];
+        short address = instructionMemory.LoadWord(registers.GetInstructionPointer() + 2);
+        registers.GetInterruptAddress(code) = address;
         return 4;
     }
-    else if (Opcode < OPCODE::OFF)
-        Flags.SetInterruptMask(Opcode == OPCODE::SIM);
+    else if (opcode < OPCODE::OFF)
+        flags.SetInterruptMask(opcode == OPCODE::SIM);
     return 1;
 }
 
-short CControlComponent::Dispatch(OPCODE Opcode)
+short ControlComponent::Dispatch(OPCODE opcode)
 {
-    if (Opcode == OPCODE::OFF)
+    if (opcode == OPCODE::OFF)
         return -1;
-    if (Opcode > OPCODE::INW)
-        return InterruptRelatedOp(Opcode);
-    byte Port = InstructionMemory[Registers.GetInstructionPointer() + 1];
-    byte Reg = InstructionMemory[Registers.GetInstructionPointer() + 2];
-    IDevice* pDevice = Processor.GetDevice(Port);
-    if (pDevice == nullptr)
+    if (opcode > OPCODE::INW)
+        return InterruptRelatedOp(opcode);
+    byte port = instructionMemory[registers.GetInstructionPointer() + 1];
+    byte reg = instructionMemory[registers.GetInstructionPointer() + 2];
+    Device* device = processor.GetDevice(port);
+    if (device == nullptr)
         return 3;
-    if (Opcode == OPCODE::OUTB)
-        pDevice->SendByteTo(Port, Registers[Reg]);
-    else if (Opcode == OPCODE::OUTW)
-        pDevice->SendWordTo(Port, Registers[Reg]);
-    else if (Opcode == OPCODE::INB)
-        Registers[Reg] = pDevice->ReceiveByteFrom(Port);
-    else if (Opcode == OPCODE::INW)
-        Registers[Reg] = pDevice->ReceiveWordFrom(Port);
+    if (opcode == OPCODE::OUTB)
+        device->SendByteTo(port, registers[reg]);
+    else if (opcode == OPCODE::OUTW)
+        device->SendWordTo(port, registers[reg]);
+    else if (opcode == OPCODE::INB)
+        registers[reg] = device->ReceiveByteFrom(port);
+    else if (opcode == OPCODE::INW)
+        registers[reg] = device->ReceiveWordFrom(port);
     return 3;
 }
 
-CControlComponent::CControlComponent(CProcessor& Processor) :
-    IProcessorComponent(Processor)
+ControlComponent::ControlComponent(Processor& processor) :
+    ProcessorComponent(processor)
 {}

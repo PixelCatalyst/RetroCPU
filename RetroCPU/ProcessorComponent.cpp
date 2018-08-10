@@ -1,9 +1,9 @@
 #include "Processor.h"
 
-IProcessorComponent::IProcessorComponent(CProcessor& Processor) :
-    Processor(Processor),
-    Registers(Processor.Registers),
-    Flags(Processor.Flags),
-    InstructionMemory(Processor.InstructionMemory),
-    DataMemory(Processor.DataMemory)
+ProcessorComponent::ProcessorComponent(Processor& processor) :
+    processor(processor),
+    registers(processor.registers),
+    flags(processor.flags),
+    instructionMemory(processor.instructionMemory),
+    dataMemory(processor.dataMemory)
 {}

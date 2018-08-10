@@ -6,23 +6,23 @@
 
 using std::bitset;
 
-class CMemory;
+class Memory;
 
-class CFlags
+class Flags
 {
 private:
-    bitset<2> Flags;
-    bitset<2> InterruptFlags;
+    bitset<2> flags;
+    bitset<2> interruptFlags;
 public:
-    void RestoreFromStack(short& StackPointer, CMemory& DataMemory);
-    void SaveOnStack(short& StackPointer, CMemory& DataMemory);
+    void RestoreFromStack(short& stackPointer, Memory& dataMemory);
+    void SaveOnStack(short& stackPointer, Memory& dataMemory);
 
     bool GetInterruptMask() const;
     bool GetInterruptInService() const;
     bool GetCF() const;
     bool GetZF() const;
-    void SetInterruptMask(bool Flag);
-    void SetInterruptInService(bool Flag);
-    void SetCF(bool Flag);
-    void SetZF(bool Flag);
+    void SetInterruptMask(bool flag);
+    void SetInterruptInService(bool flag);
+    void SetCF(bool flag);
+    void SetZF(bool flag);
 };

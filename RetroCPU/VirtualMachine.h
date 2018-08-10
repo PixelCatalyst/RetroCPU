@@ -11,21 +11,21 @@
 using std::wstring;
 using std::ifstream;
 
-class CVirtualMachine
+class VirtualMachine
 {
 private:
-    CProcessor Processor;
-    CMemory InstructionMemory, DataMemory;
-    CGraphicsCard GraphicsCard;
-    bool Running = false;
+    Processor processor;
+    Memory instructionMemory, dataMemory;
+    GraphicsCard graphicsCard;
+    bool running = false;
 
-    bool LoadROMSegment(ifstream& ROM, CMemory& TargetMemory);
+    bool LoadROMSegment(ifstream& storage, Memory& targetMemory);
 public:
     void Terminate();
     bool Cycle();
     bool IsRunning() const;
-    void LoadROM(const wstring& Path);
+    void LoadROM(const wstring& path);
 
     void Initialize();
-    CVirtualMachine();
+    VirtualMachine();
 };

@@ -2,18 +2,18 @@
 
 #include "Byte.h"
 
-class CMemory
+class Memory
 {
 public:
-    static const unsigned SizeInBytes = 65536;
-    static const unsigned short MaxAddress = SizeInBytes - 1;
+    static const unsigned sizeInBytes = 65536;
+    static const unsigned short maxAddress = sizeInBytes - 1;
 private:
-    byte* pCells = nullptr;
+    byte* cells = nullptr;
 public:
-    short LoadWord(unsigned short Address);
-    void StoreWord(unsigned short Address, short Word);
-    byte& operator[](unsigned short Index);
+    short LoadWord(unsigned short address);
+    void StoreWord(unsigned short address, short word);
+    byte& operator[](unsigned short index);
 
-    CMemory();
-    ~CMemory();
+    Memory();
+    ~Memory();
 };

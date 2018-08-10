@@ -52,7 +52,7 @@ enum class OPCODE : unsigned char
     OFF = 0x37
 };
 
-const int CategoriesCount = 4;
+const int categoriesCount = 4;
 enum class OPCODE_CATEGORY : unsigned char
 {
     MEMORY = 0,

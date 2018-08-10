@@ -7,7 +7,7 @@
 class Application : public wxApp
 {
 private:
-    CVirtualMachine VM;
+    VirtualMachine machine;
 public:
     void Update();
 

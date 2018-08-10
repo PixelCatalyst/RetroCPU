@@ -1,21 +1,21 @@
 #include "GraphicsCard.h"
 
-byte CGraphicsCard::ReceiveByteFrom(word Port)
+byte GraphicsCard::ReceiveByteFrom(word port)
 {
-    return Port;
+    return port;
 }
 
-void CGraphicsCard::SendByteTo(word Port, byte Value)
+void GraphicsCard::SendByteTo(word port, byte value)
 {
-    exit(Value);
+    exit(value);
 }
 
-short CGraphicsCard::ReceiveWordFrom(word Port)
+short GraphicsCard::ReceiveWordFrom(word port)
 {
-    return Port;
+    return port;
 }
 
-void CGraphicsCard::SendWordTo(word Port, short Value)
+void GraphicsCard::SendWordTo(word port, short value)
 {
 
 }

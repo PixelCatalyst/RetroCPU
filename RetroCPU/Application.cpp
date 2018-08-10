@@ -2,19 +2,19 @@
 
 void Application::Update()
 {
-    if (VM.IsRunning())
+    if (machine.IsRunning())
     {
-        bool FollowUpRequest = VM.Cycle();
-        if (FollowUpRequest == false)
+        bool followUpRequest = machine.Cycle();
+        if (followUpRequest == false)
         {
-            VM.Terminate();
+            machine.Terminate();
         }
     }
 }
 
 bool Application::OnInit()
 {
-    VM.Initialize();
+    machine.Initialize();
     return true;
 }
 

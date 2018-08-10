@@ -4,18 +4,18 @@
 
 #include "Byte.h"
 
-class IDevice
+class Device
 {
 public:
-    virtual byte ReceiveByteFrom(word Port) = 0;
-    virtual void SendByteTo(word Port, byte Value) = 0;
-    virtual short ReceiveWordFrom(word Port) = 0;
-    virtual void SendWordTo(word Port, short Value) = 0;
+    virtual byte ReceiveByteFrom(word port) = 0;
+    virtual void SendByteTo(word port, byte value) = 0;
+    virtual short ReceiveWordFrom(word port) = 0;
+    virtual void SendWordTo(word port, short value) = 0;
 };
 
 struct DeviceRecord
 {
-    IDevice* pDevice = nullptr;
-    word Port = 0;
-    bool IsRightBound = false;
+    Device* device = nullptr;
+    word port = 0;
+    bool isRightBound = false;
 };

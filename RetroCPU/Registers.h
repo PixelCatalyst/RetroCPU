@@ -2,26 +2,26 @@
 
 #include "Byte.h"
 
-class CMemory;
+class Memory;
 
-class CRegisters
+class Registers
 {
 private:
-    static const int GPRegistersCount = 16;
-    static const int SpecialRegistersCount = 2;
-    static const int RegistersCount = GPRegistersCount + SpecialRegistersCount;
-    static const int InterruptHandlersCount = 256;
+    static const int generalRegistersCount = 16;
+    static const int specialRegistersCount = 2;
+    static const int registersCount = generalRegistersCount + specialRegistersCount;
+    static const int interruptHandlersCount = 256;
 
-    short Cells[RegistersCount];
-    short InterruptAddressTable[InterruptHandlersCount];
+    short cells[registersCount];
+    short interruptAddressTable[interruptHandlersCount];
 public:
-    void RestoreFromStack(CMemory& DataMemory);
-    void SaveOnStack(CMemory& DataMemory);
+    void RestoreFromStack(Memory& dataMemory);
+    void SaveOnStack(Memory& dataMemory);
 
-    short& GetInterruptAddress(byte Index);
+    short& GetInterruptAddress(byte index);
     short& GetInstructionPointer();
     short& GetStackPointer();
-    short& operator[](byte Index);
+    short& operator[](byte index);
 
-    CRegisters();
+    Registers();
 };

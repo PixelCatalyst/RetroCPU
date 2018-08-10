@@ -1,50 +1,50 @@
 #include "Registers.h"
 #include "Memory.h"
 
-void CRegisters::RestoreFromStack(CMemory& DataMemory)
+void Registers::RestoreFromStack(Memory& dataMemory)
 {
-    for (int i = RegistersCount - 1; i >= 0; --i)
+    for (int i = registersCount - 1; i >= 0; --i)
     {
-        Cells[i] = DataMemory.LoadWord(++GetStackPointer());
+        cells[i] = dataMemory.LoadWord(++GetStackPointer());
         ++GetStackPointer();
     }
 }
 
-void CRegisters::SaveOnStack(CMemory& DataMemory)
+void Registers::SaveOnStack(Memory& dataMemory)
 {
-    for (int i = 0; i < RegistersCount; ++i)
+    for (int i = 0; i < registersCount; ++i)
     {
-        DataMemory.StoreWord(--GetStackPointer(), Cells[i]);
+        dataMemory.StoreWord(--GetStackPointer(), cells[i]);
         --GetStackPointer();
     }
 }
 
-short& CRegisters::GetInterruptAddress(unsigned char Index)
+short& Registers::GetInterruptAddress(unsigned char index)
 {
-    return InterruptAddressTable[Index];
+    return interruptAddressTable[index];
 }
 
-short& CRegisters::GetInstructionPointer()
+short& Registers::GetInstructionPointer()
 {
-    return Cells[GPRegistersCount + 1];
+    return cells[generalRegistersCount + 1];
 }
 
-short& CRegisters::GetStackPointer()
+short& Registers::GetStackPointer()
 {
-    return Cells[GPRegistersCount];
+    return cells[generalRegistersCount];
 }
 
-short& CRegisters::operator[](unsigned char Index)
+short& Registers::operator[](unsigned char index)
 {
-    if (Index >= RegistersCount)
-        return Cells[0];
-    return Cells[Index];
+    if (index >= registersCount)
+        return cells[0];
+    return cells[index];
 }
 
-CRegisters::CRegisters()
+Registers::Registers()
 {
-    for (int i = 0; i < RegistersCount; ++i)
-        Cells[i] = 0;
-    for (int i = 0; i < InterruptHandlersCount; ++i)
-        InterruptAddressTable[i] = 0;
+    for (int i = 0; i < registersCount; ++i)
+        cells[i] = 0;
+    for (int i = 0; i < interruptHandlersCount; ++i)
+        interruptAddressTable[i] = 0;
 }

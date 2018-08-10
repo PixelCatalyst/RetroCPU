@@ -1,75 +1,75 @@
 #include "Processor.h"
 
-IDevice* CProcessor::GetDevice(word Port)
+Device* Processor::GetDevice(word port)
 {
-    auto DeviceIt = Devices.lower_bound(Port);
-    if (DeviceIt == Devices.end())
+    auto deviceIt = devices.lower_bound(port);
+    if (deviceIt == devices.end())
         return nullptr;
-    if ((DeviceIt->second.Port > Port) && (DeviceIt->second.IsRightBound == false))
+    if ((deviceIt->second.port > port) && (deviceIt->second.isRightBound == false))
         return nullptr;
-    return DeviceIt->second.pDevice;
+    return deviceIt->second.device;
 }
 
-void CProcessor::AddDevice(IDevice* pDevice, word MinPort, word MaxPort)
+void Processor::AddDevice(Device* device, word minPort, word maxPort)
 {
-    DeviceRecord NewDevice;
-    NewDevice.pDevice = pDevice;
-    NewDevice.Port = MinPort;
-    Devices[MinPort] = NewDevice;
-    if (MinPort == MaxPort)
+    DeviceRecord addedDevice;
+    addedDevice.device = device;
+    addedDevice.port = minPort;
+    devices[minPort] = addedDevice;
+    if (minPort == maxPort)
         return;
-    NewDevice.Port = MaxPort;
-    NewDevice.IsRightBound = true;
-    Devices[MaxPort] = NewDevice;
+    addedDevice.port = maxPort;
+    addedDevice.isRightBound = true;
+    devices[maxPort] = addedDevice;
 }
 
-void CProcessor::HandleInterruptRequest()
+void Processor::HandleInterruptRequest()
 {
-    if ((Flags.GetInterruptInService() == false) && (PendingInterruptRequests.empty() == false))
+    if ((flags.GetInterruptInService() == false) && (pendingInterruptRequests.empty() == false))
     {
-        byte IntCode = PendingInterruptRequests.front();
-        PendingInterruptRequests.pop();
-        Registers.SaveOnStack(DataMemory);
-        Registers.GetInstructionPointer() = Registers.GetInterruptAddress(IntCode);
-        Flags.SaveOnStack(Registers.GetStackPointer(), DataMemory);
-        Flags.SetInterruptInService(true);
+        byte interCode = pendingInterruptRequests.front();
+        pendingInterruptRequests.pop();
+        registers.SaveOnStack(dataMemory);
+        registers.GetInstructionPointer() = registers.GetInterruptAddress(interCode);
+        flags.SaveOnStack(registers.GetStackPointer(), dataMemory);
+        flags.SetInterruptInService(true);
     }
 }
 
-void CProcessor::InterruptRequest(byte IntCode)
+void Processor::InterruptRequest(byte interCode)
 {
-    if (IntCode > 15 && Flags.GetInterruptMask())
+    if (interCode > 15 && flags.GetInterruptMask())
         return;
-    if (PendingInterruptRequests.size() < 8)
-        PendingInterruptRequests.push(IntCode);
+    if (pendingInterruptRequests.size() < 8)
+        pendingInterruptRequests.push(interCode);
 }
 
-bool CProcessor::ExecuteInstruction()
+bool Processor::ExecuteInstruction()
 {
-    byte Opcode = InstructionMemory[Registers.GetInstructionPointer()];
-    short InstructionLength = pComponents[HIGHNIBBLE(Opcode)]->Dispatch(static_cast<OPCODE>(Opcode));
-    Registers.GetInstructionPointer() += InstructionLength;
-    if (InstructionLength < 0)
+    byte opcode = instructionMemory[registers.GetInstructionPointer()];
+    short instructionLength = components[HIGHNIBBLE(opcode)]->Dispatch(static_cast<OPCODE>(opcode));
+    registers.GetInstructionPointer() += instructionLength;
+    if (instructionLength < 0)
         return false;
     HandleInterruptRequest();
     return true;
 }
 
-CProcessor::CProcessor(CMemory& InstructionMemory, CMemory& DataMemory) :
-    InstructionMemory(InstructionMemory),
-    DataMemory(DataMemory)
+Processor::Processor(Memory& instructionMemory, Memory& dataMemory) :
+    instructionMemory(instructionMemory),
+    dataMemory(dataMemory)
 {
-    pComponents = new IProcessorComponent*[CategoriesCount];
-    pComponents[static_cast<int>(OPCODE_CATEGORY::MEMORY)] = new CMemoryComponent(*this);
-    pComponents[static_cast<int>(OPCODE_CATEGORY::ALU)] = new CALUComponent(*this);
-    pComponents[static_cast<int>(OPCODE_CATEGORY::JUMP)] = new CJumpComponent(*this);
-    pComponents[static_cast<int>(OPCODE_CATEGORY::CONTROL)] = new CControlComponent(*this);
-    Registers.GetStackPointer() = CMemory::MaxAddress;
+    components = new ProcessorComponent*[categoriesCount];
+    components[static_cast<int>(OPCODE_CATEGORY::MEMORY)] = new MemoryComponent(*this);
+    components[static_cast<int>(OPCODE_CATEGORY::ALU)] = new ALUComponent(*this);
+    components[static_cast<int>(OPCODE_CATEGORY::JUMP)] = new JumpComponent(*this);
+    components[static_cast<int>(OPCODE_CATEGORY::CONTROL)] = new ControlComponent(*this);
+    registers.GetStackPointer() = Memory::maxAddress;
 }
 
-CProcessor::~CProcessor()
+Processor::~Processor()
 {
-    for (int i = 0; i < CategoriesCount; ++i)
-        delete pComponents[i];
-    delete[] pComponents;
+    for (int i = 0; i < categoriesCount; ++i)
+        delete components[i];
+    delete[] components;
 }

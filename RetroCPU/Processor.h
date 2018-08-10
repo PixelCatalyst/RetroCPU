@@ -12,28 +12,28 @@
 using std::map;
 using std::queue;
 
-class CProcessor
+class Processor
 {
 private:
-    CRegisters Registers;
-    CFlags Flags;
-    CMemory& InstructionMemory;
-    CMemory& DataMemory;
-    map<word, DeviceRecord> Devices;
-    queue<byte> PendingInterruptRequests;
+    Registers registers;
+    Flags flags;
+    Memory& instructionMemory;
+    Memory& dataMemory;
+    map<word, DeviceRecord> devices;
+    queue<byte> pendingInterruptRequests;
 
-    IProcessorComponent** pComponents = nullptr;
+    ProcessorComponent** components = nullptr;
 
     void HandleInterruptRequest();
 public:
-    IDevice* GetDevice(word Port);
-    void AddDevice(IDevice* pDevice, word MinPort, word MaxPort);
+    Device* GetDevice(word port);
+    void AddDevice(Device* device, word minPort, word maxPort);
 
-    void InterruptRequest(byte IntCode);
+    void InterruptRequest(byte intCode);
     bool ExecuteInstruction();
 
-    CProcessor(CMemory& InstructionMemory, CMemory& DataMemory);
-    ~CProcessor();
+    Processor(Memory& instructionMemory, Memory& dataMemory);
+    ~Processor();
 
-    friend class IProcessorComponent;
+    friend class ProcessorComponent;
 };

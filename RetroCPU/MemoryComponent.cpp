@@ -1,87 +1,87 @@
 #include "Processor.h"
 
-short CMemoryComponent::POPF()
+short MemoryComponent::POPF()
 {
-    Flags.RestoreFromStack(Registers.GetStackPointer(), DataMemory);
+    flags.RestoreFromStack(registers.GetStackPointer(), dataMemory);
     return 1;
 }
 
-short CMemoryComponent::PUSHF()
+short MemoryComponent::PUSHF()
 {
-    Flags.SaveOnStack(Registers.GetStackPointer(), DataMemory);
+    flags.SaveOnStack(registers.GetStackPointer(), dataMemory);
     return 1;
 }
 
-short CMemoryComponent::POP()
+short MemoryComponent::POP()
 {
-    byte Reg = InstructionMemory[Registers.GetInstructionPointer() + 1];
-    Registers[Reg] = DataMemory.LoadWord(++Registers.GetStackPointer());
-    ++Registers.GetStackPointer();
+    byte reg = instructionMemory[registers.GetInstructionPointer() + 1];
+    registers[reg] = dataMemory.LoadWord(++registers.GetStackPointer());
+    ++registers.GetStackPointer();
     return 2;
 }
 
-short CMemoryComponent::PUSH()
+short MemoryComponent::PUSH()
 {
-    byte Reg = InstructionMemory[Registers.GetInstructionPointer() + 1];
-    DataMemory.StoreWord(--Registers.GetStackPointer(), Registers[Reg]);
-    --Registers.GetStackPointer();
+    byte reg = instructionMemory[registers.GetInstructionPointer() + 1];
+    dataMemory.StoreWord(--registers.GetStackPointer(), registers[reg]);
+    --registers.GetStackPointer();
     return 2;
 }
 
-short CMemoryComponent::STRB()
+short MemoryComponent::STRB()
 {
-    OperandRegs Args = InstructionMemory[Registers.GetInstructionPointer() + 1];
-    DataMemory[Registers[Args.DestinationReg]] = Registers[Args.SourceReg];
+    OperandRegs args = instructionMemory[registers.GetInstructionPointer() + 1];
+    dataMemory[registers[args.destinationReg]] = registers[args.sourceReg];
     return 2;
 }
 
-short CMemoryComponent::STRW()
+short MemoryComponent::STRW()
 {
-    OperandRegs Args = InstructionMemory[Registers.GetInstructionPointer() + 1];
-    DataMemory.StoreWord(Registers[Args.DestinationReg], Registers[Args.SourceReg]);
+    OperandRegs args = instructionMemory[registers.GetInstructionPointer() + 1];
+    dataMemory.StoreWord(registers[args.destinationReg], registers[args.sourceReg]);
     return 2;
 }
 
-short CMemoryComponent::LDB()
+short MemoryComponent::LDB()
 {
-    OperandRegs Args = InstructionMemory[Registers.GetInstructionPointer() + 1];
-    Registers[Args.DestinationReg] = DataMemory[Registers[Args.SourceReg]];
+    OperandRegs args = instructionMemory[registers.GetInstructionPointer() + 1];
+    registers[args.destinationReg] = dataMemory[registers[args.sourceReg]];
     return 2;
 }
 
-short CMemoryComponent::LDW()
+short MemoryComponent::LDW()
 {
-    OperandRegs Args = InstructionMemory[Registers.GetInstructionPointer() + 1];
-    Registers[Args.DestinationReg] = DataMemory.LoadWord(Registers[Args.SourceReg]);
+    OperandRegs args = instructionMemory[registers.GetInstructionPointer() + 1];
+    registers[args.destinationReg] = dataMemory.LoadWord(registers[args.sourceReg]);
     return 2;
 }
 
-short CMemoryComponent::MOV_IMM16()
+short MemoryComponent::MOV_IMM16()
 {
-    byte DestinationReg = InstructionMemory[Registers.GetInstructionPointer() + 1];
-    short Value = InstructionMemory.LoadWord(Registers.GetInstructionPointer() + 2);
-    Registers[DestinationReg] = Value;
+    byte destinationReg = instructionMemory[registers.GetInstructionPointer() + 1];
+    short value = instructionMemory.LoadWord(registers.GetInstructionPointer() + 2);
+    registers[destinationReg] = value;
     return 4;
 }
 
-short CMemoryComponent::MOV_IMM8()
+short MemoryComponent::MOV_IMM8()
 {
-    byte DestinationReg = InstructionMemory[Registers.GetInstructionPointer() + 1];
-    byte Value = InstructionMemory[Registers.GetInstructionPointer() + 2];
-    Registers[DestinationReg] = Value;
+    byte destinationReg = instructionMemory[registers.GetInstructionPointer() + 1];
+    byte value = instructionMemory[registers.GetInstructionPointer() + 2];
+    registers[destinationReg] = value;
     return 3;
 }
 
-short CMemoryComponent::MOV_REG()
+short MemoryComponent::MOV_REG()
 {
-    OperandRegs Args = InstructionMemory[Registers.GetInstructionPointer() + 1];
-    Registers[Args.DestinationReg] = Registers[Args.SourceReg];
+    OperandRegs args = instructionMemory[registers.GetInstructionPointer() + 1];
+    registers[args.destinationReg] = registers[args.sourceReg];
     return 2;
 }
 
-short CMemoryComponent::Dispatch(OPCODE Opcode)
+short MemoryComponent::Dispatch(OPCODE opcode)
 {
-    switch (Opcode)
+    switch (opcode)
     {
     case OPCODE::MOV_REG:
         return MOV_REG();
@@ -110,6 +110,6 @@ short CMemoryComponent::Dispatch(OPCODE Opcode)
     }
 }
 
-CMemoryComponent::CMemoryComponent(CProcessor& Processor) :
-    IProcessorComponent(Processor)
+MemoryComponent::MemoryComponent(Processor& processor) :
+    ProcessorComponent(processor)
 {}

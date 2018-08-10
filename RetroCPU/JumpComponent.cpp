@@ -1,94 +1,94 @@
 #include "Processor.h"
 
-short CJumpComponent::JBE()
+short JumpComponent::JBE()
 {
-    if (Flags.GetZF() && Flags.GetCF())
+    if (flags.GetZF() && flags.GetCF())
         return JMP_IMM16();
     return 3;
 }
 
-short CJumpComponent::JAE_JNC()
+short JumpComponent::JAE_JNC()
 {
-    if (Flags.GetCF() == false)
+    if (flags.GetCF() == false)
         return JMP_IMM16();
     return 3;
 }
 
-short CJumpComponent::JB_JC()
+short JumpComponent::JB_JC()
 {
-    if (Flags.GetCF())
+    if (flags.GetCF())
         return JMP_IMM16();
     return 3;
 }
 
-short CJumpComponent::JA()
+short JumpComponent::JA()
 {
-    if ((Flags.GetZF() == false) && (Flags.GetCF() == false))
+    if ((flags.GetZF() == false) && (flags.GetCF() == false))
         return JMP_IMM16();
     return 3;
 }
 
-short CJumpComponent::JNZ_JNE()
+short JumpComponent::JNZ_JNE()
 {
-    if (Flags.GetZF() == false)
+    if (flags.GetZF() == false)
         return JMP_IMM16();
     return 3;
 }
 
-short CJumpComponent::JZ_JE()
+short JumpComponent::JZ_JE()
 {
-    if (Flags.GetZF())
+    if (flags.GetZF())
         return JMP_IMM16();
     return 3;
 }
 
-short CJumpComponent::CMP()
+short JumpComponent::CMP()
 {
-    OperandRegs Args = InstructionMemory[Registers.GetInstructionPointer() + 1];
-    short Compare = Registers[Args.DestinationReg] - Registers[Args.SourceReg];
-    Flags.SetZF(Compare == 0);
-    Flags.SetCF(Compare < 0);
+    OperandRegs args = instructionMemory[registers.GetInstructionPointer() + 1];
+    short compare = registers[args.destinationReg] - registers[args.sourceReg];
+    flags.SetZF(compare == 0);
+    flags.SetCF(compare < 0);
     return 2;
 }
 
-short CJumpComponent::IRET()
+short JumpComponent::IRET()
 {
-    Flags.SetInterruptInService(false);
-    Flags.RestoreFromStack(Registers.GetStackPointer(), DataMemory);
-    Registers.RestoreFromStack(DataMemory);
+    flags.SetInterruptInService(false);
+    flags.RestoreFromStack(registers.GetStackPointer(), dataMemory);
+    registers.RestoreFromStack(dataMemory);
     return 1;
 }
 
-short CJumpComponent::RET()
+short JumpComponent::RET()
 {
-    Registers.GetInstructionPointer() = DataMemory.LoadWord(++Registers.GetStackPointer());
-    ++Registers.GetStackPointer();
+    registers.GetInstructionPointer() = dataMemory.LoadWord(++registers.GetStackPointer());
+    ++registers.GetStackPointer();
     return 0;
 }
 
-short CJumpComponent::CALL()
+short JumpComponent::CALL()
 {
-    DataMemory.StoreWord(--Registers.GetStackPointer(), Registers.GetInstructionPointer());
-    --Registers.GetStackPointer();
+    dataMemory.StoreWord(--registers.GetStackPointer(), registers.GetInstructionPointer());
+    --registers.GetStackPointer();
     return JMP_IMM16();
 }
 
-short CJumpComponent::JMP_IMM16()
+short JumpComponent::JMP_IMM16()
 {
-    Registers.GetInstructionPointer() = InstructionMemory.LoadWord(Registers.GetInstructionPointer() + 1);
+    registers.GetInstructionPointer() = instructionMemory.LoadWord(registers.GetInstructionPointer() + 1);
     return 0;
 }
 
-short CJumpComponent::JMP_REG()
+short JumpComponent::JMP_REG()
 {
-    byte Reg = InstructionMemory[Registers.GetInstructionPointer() + 1];
-    Registers.GetInstructionPointer() = Registers[Reg];
+    byte reg = instructionMemory[registers.GetInstructionPointer() + 1];
+    registers.GetInstructionPointer() = registers[reg];
     return 0;
 }
 
-short CJumpComponent::Dispatch(OPCODE Opcode)
+short JumpComponent::Dispatch(OPCODE opcode)
 {
-    switch (Opcode)
+    switch (opcode)
     {
     case OPCODE::JMP_REG:
         return JMP_REG();
@@ -119,6 +119,6 @@ short CJumpComponent::Dispatch(OPCODE Opcode)
     }
 }
 
-CJumpComponent::CJumpComponent(CProcessor& Processor) :
-    IProcessorComponent(Processor)
+JumpComponent::JumpComponent(Processor& processor) :
+    ProcessorComponent(processor)
 {}

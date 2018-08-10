@@ -12,11 +12,11 @@ using word = unsigned short;
 struct OperandRegs
 {
 public:
-    byte DestinationReg;
-    byte SourceReg;
+    byte destinationReg;
+    byte sourceReg;
 
-    OperandRegs(byte Args) :
-        DestinationReg(HIGHNIBBLE(Args)),
-        SourceReg(LOWNIBBLE(Args))
+    OperandRegs(byte args) :
+        destinationReg(HIGHNIBBLE(args)),
+        sourceReg(LOWNIBBLE(args))
     {}
 };
