@@ -1,3 +1,5 @@
+#include <wx/wxprec.h>
+
 #include "Application.h"
 
 void Application::Update()
